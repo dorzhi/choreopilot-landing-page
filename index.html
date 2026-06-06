@@ -1,114 +1,28 @@
-﻿<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>ChoreoPilot</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="icon" href="favicon.png" type="image/png" />
-    <link rel="icon" href="favicon.ico" sizes="any" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;600;700&family=Inter:wght@300;400;500;600&family=Sora:wght@400;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <main class="page">
-      <section class="hero" aria-label="ChoreoPilot introduction">
-        <div class="hero-bg">
-          <span class="arc arc-one"></span>
-          <span class="arc arc-two"></span>
-          <span class="arc arc-three"></span>
-        </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ChoreoPilot — AI bachata practice coach</title>
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="shortcut icon" href="favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600&family=Dancing+Script:wght@500;600;700&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="choreopilot.css" />
+  <script src="logo-knockout.js"></script>
+</head>
+<body>
+  <div id="root"></div>
 
-        <nav class="brand">
-          <img src="logo_choreopilot.png" alt="ChoreoPilot logo" class="logo" />
-          <span class="wordmark">ChoreoPilot</span>
-        </nav>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
 
-        <div class="hero-content">
-          <p class="eyebrow">Dance-tech for modern latina social nights</p>
-          <h1 class="hero-title">
-            Dance in flow.<br />
-            We’ll handle the thinking.
-          </h1>
-          <p class="subheading">
-            AI-assisted choreography and whispered guidance keep you present with your partner —
-            moving naturally, listening deeply, and letting the music lead.
-          </p>
-          <div class="cta-row">
-            <button class="cta primary" type="button">Start in Flow</button>
-            <button class="cta ghost" type="button">Watch it Move</button>
-          </div>
-        </div>
-
-        <div class="silhouettes" aria-hidden="true">
-          <img src="couple_front_view_512.png" alt="" class="silhouette-img" />
-        </div>
-      </section>
-
-      <section class="emotion" aria-label="Emotion first">
-        <p>No overthinking.</p>
-        <p>No freezing mid-song.</p>
-        <p>Just movement, music, connection.</p>
-      </section>
-
-      <section class="features" aria-label="ChoreoPilot features">
-        <article>
-          <h2>Choreographies that feel musical</h2>
-          <p>Generate sequences that breathe with the song — soft pauses, confident accents, natural flow.</p>
-        </article>
-        <article>
-          <h2>Preview every step</h2>
-          <p>Clean animations reveal how the partnership moves before you ever step in.</p>
-        </article>
-        <article>
-          <h2>Whispered guidance</h2>
-          <p>Discrete cues in your headset keep you aligned without breaking the moment.</p>
-        </article>
-      </section>
-
-      <section class="whisper" aria-label="Whisper Mode">
-        <div class="whisper-card">
-          <div class="whisper-visual" aria-hidden="true">
-            <img src="earpods.png" alt="" class="earpods-image" />
-            <div class="wave wave-one"></div>
-            <div class="wave wave-two"></div>
-            <div class="wave wave-three"></div>
-          </div>
-          <div class="whisper-copy">
-            <p class="eyebrow">Whisper Mode</p>
-            <h2>Stay present in the dance</h2>
-            <p>
-              Guidance arrives softly — just enough to keep you grounded while the connection stays
-              uninterrupted.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section class="for-dancers" aria-label="For dancers">
-        <div class="dancer-card leader">
-          <h3>Leaders</h3>
-          <p>Calm, musical, confident — lead with clarity and ease.</p>
-        </div>
-        <div class="dancer-card follower">
-          <h3>Choreographers & followers</h3>
-          <p>Clarity, trust, intention — feel every invitation without hesitation.</p>
-        </div>
-      </section>
-
-      <section class="final-cta" aria-label="Final call to action">
-        <div class="final-inner">
-          <h2>
-            Let the music lead.<br />
-            We’ll whisper the rest.
-          </h2>
-          <button class="cta primary" type="button">Enter ChoreoPilot</button>
-        </div>
-      </section>
-    </main>
-  </body>
+  <script type="text/babel" src="visuals.jsx"></script>
+  <script type="text/babel" src="phone.jsx"></script>
+  <script type="text/babel" src="sections1.jsx"></script>
+  <script type="text/babel" src="sections2.jsx"></script>
+  <script type="text/babel" src="app.jsx"></script>
+</body>
 </html>
