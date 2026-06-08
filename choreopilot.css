@@ -379,8 +379,8 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 500; color: var(--ink-0); m
 }
 /* emblem shown as-is — the new artwork already has the themed indigo/magenta colors */
 .logo-mark {
-  width: 66px; height: 50px; flex: none;
-  background: var(--logo-img) center / contain no-repeat;
+  width: 50px; height: 50px; flex: none;
+  background: url(logo_v2.png) center / contain no-repeat;
   filter: drop-shadow(0 0 11px oklch(0.58 0.19 292 / calc(0.55 * var(--glow))));
 }
 
