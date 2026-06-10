@@ -1,8 +1,8 @@
 // phone.jsx — phone mockups. Figures are now a STATIC couple image
 // (leader = blue male on the left, follower = red female on the right).
-// Exports to window: HeroPhone, PartnerPhone
 
-const { useState, useEffect, useRef } = React;
+import { useState, useEffect } from "react";
+import { Icon, CountStrip } from "./visuals.jsx";
 
 // shared 8-count beat clock (only ticks when animate is on)
 function useBeat(active, bpm = 116) {
@@ -37,7 +37,7 @@ function Couple({ focus = "none" }) {
 }
 
 // HERO: static demo (recording loop only runs if animate is toggled on)
-function HeroPhone({ animate = false }) {
+export function HeroPhone({ animate = false }) {
   const beat = useBeat(animate, 116);
   const [secs, setSecs] = useState(15);
   const [showScore, setShowScore] = useState(false);
@@ -70,7 +70,6 @@ function HeroPhone({ animate = false }) {
 
         <Couple focus="none" />
 
-        {/* role tags — Leader (blue) left, Follower (red) right */}
         <div className="role-tag role-lead" style={{ left: 16, bottom: 206 }}>Leader</div>
         <div className="role-tag role-foll" style={{ right: 14, bottom: 236 }}>Follower</div>
 
@@ -80,7 +79,6 @@ function HeroPhone({ animate = false }) {
         <CountStrip active={beat} taps={[3, 7]} />
         <div className="timer-pill"><span className="rec-dot" />{timer}</div>
 
-        {/* score reveal overlay (only when animating) */}
         <div className={`score-reveal ${showScore ? "show" : ""}`}>
           <div className="sr-ring">
             <svg viewBox="0 0 100 100" width="118" height="118">
@@ -103,7 +101,7 @@ function HeroPhone({ animate = false }) {
 }
 
 // PARTNER section phone — static couple; mode highlights which role is the virtual guide
-function PartnerPhone({ animate = false, mode = "leader" }) {
+export function PartnerPhone({ animate = false, mode = "leader" }) {
   const beat = useBeat(animate, 116);
   const focus = mode === "leader" ? "left" : mode === "follower" ? "right" : "none";
   return (
@@ -129,5 +127,3 @@ function PartnerPhone({ animate = false, mode = "leader" }) {
     </div>
   );
 }
-
-Object.assign(window, { HeroPhone, PartnerPhone });

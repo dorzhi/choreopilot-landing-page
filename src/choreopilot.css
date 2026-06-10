@@ -1,4 +1,41 @@
-/* ChoreoPilot — AI bachata practice coach. Dark dance-tech, cinematic, restrained neon. */
+/* ChoreoPilot — AI practice partner for Latin social dance. Dark dance-tech, cinematic, restrained neon. */
+
+/* ----------------------------------------------------------------
+   SEO fallback (rendered statically inside #root before React mounts).
+   Visible briefly during script load, then React.createRoot replaces
+   the container's children with the interactive app. Styled so the
+   flash is not jarring; remains fully crawlable.
+   ---------------------------------------------------------------- */
+.seo-fallback {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 80px 24px;
+  font-family: "Hanken Grotesk", system-ui, -apple-system, sans-serif;
+  color: oklch(0.80 0.014 282);
+  line-height: 1.6;
+}
+.seo-fallback h1 {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(36px, 5vw, 60px);
+  line-height: 1.05;
+  color: oklch(0.97 0.006 280);
+  margin: 0 0 18px;
+}
+.seo-fallback h2 {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(24px, 3vw, 34px);
+  color: oklch(0.97 0.006 280);
+  margin: 36px 0 12px;
+}
+.seo-fallback h3 {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 20px;
+  color: oklch(0.97 0.006 280);
+  margin: 22px 0 6px;
+}
+.seo-fallback p, .seo-fallback li { font-size: 17px; }
+.seo-fallback ul, .seo-fallback ol { padding-left: 22px; }
+
 
 :root {
   /* Neon accents — driven by tweaks via --hue-a / --hue-b */
@@ -380,11 +417,82 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 500; color: var(--ink-0); m
 /* emblem shown as-is — the new artwork already has the themed indigo/magenta colors */
 .logo-mark {
   width: 50px; height: 50px; flex: none;
-  background: url(logo_v2.png) center / contain no-repeat;
+  background: url(/logo_v2.png) center / contain no-repeat;
   filter: drop-shadow(0 0 11px oklch(0.58 0.19 292 / calc(0.55 * var(--glow))));
 }
 
-@media (max-width: 900px) { .nav-links .nav-link { display: none; } }
+.nav-actions { display: flex; gap: 10px; align-items: center; }
+
+/* hamburger toggle (hidden on desktop) */
+.nav-toggle {
+  display: none;
+  width: 42px; height: 42px;
+  border-radius: 12px;
+  background: oklch(1 0 0 / 0.04);
+  border: 1px solid var(--line-strong);
+  color: var(--ink-0);
+  padding: 0;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 5px;
+  transition: background .2s, border-color .2s;
+}
+.nav-toggle:hover { background: oklch(1 0 0 / 0.08); border-color: oklch(1 0 0 / 0.3); }
+.nav-toggle span {
+  display: block;
+  width: 18px; height: 2px;
+  background: currentColor;
+  border-radius: 2px;
+  transition: transform .25s cubic-bezier(.2,.7,.3,1), opacity .2s, width .25s;
+}
+.nav-open .nav-toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-open .nav-toggle span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* mobile menu dropdown panel */
+.mobile-menu {
+  display: none;
+  position: absolute;
+  top: 100%; left: 0; right: 0;
+  background: oklch(0.13 0.02 277 / 0.96);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--line);
+  box-shadow: 0 24px 48px oklch(0 0 0 / 0.5);
+  animation: mm-in .22s cubic-bezier(.2,.7,.3,1);
+}
+.mobile-menu-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px 28px 22px;
+}
+.mobile-menu-link {
+  display: block;
+  padding: 14px 4px;
+  font-size: 17px;
+  color: var(--ink-1);
+  border-bottom: 1px solid var(--line);
+  transition: color .15s;
+}
+.mobile-menu-link:hover { color: var(--ink-0); }
+.mobile-menu-link:last-of-type { border-bottom: 0; }
+.mobile-menu-cta { margin-top: 14px; justify-content: center; padding: 14px 20px; }
+
+@keyframes mm-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 900px) {
+  .nav-links { display: none; }
+  .nav-cta { display: none; }
+  .nav-toggle { display: inline-flex; }
+  .nav.nav-open .mobile-menu { display: block; }
+  .wrap.mobile-menu-inner { padding: 16px 18px 22px; }
+}
 
 /* feature/step icon tile */
 .icon-tile {
@@ -447,7 +555,7 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 500; color: var(--ink-0); m
 /* couple image shown as-is — its indigo/pink coloring already matches the theme */
 .couple-fig {
   position: absolute; left: 5%; right: 5%; top: 74px; bottom: 52px;
-  background: url("assets/couple-front.png") center bottom / contain no-repeat;
+  background: url("/assets/couple-front.png") center bottom / contain no-repeat;
   filter: drop-shadow(0 6px 26px oklch(0.55 0.19 286 / calc(0.34 * var(--glow))));
   transform: scale(1.5);
   transform-origin: 50% 100%;
@@ -474,6 +582,11 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 500; color: var(--ink-0); m
 .sr-num small { font-size: 16px; color: var(--ink-2); }
 .sr-label { font-family: var(--serif); font-style: italic; font-size: 22px; color: var(--ink-0); }
 .sr-focus { font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent-a); }
+
+/* FAQ */
+.faq-list { display: flex; flex-direction: column; }
+.faq-item { padding: 24px 0; border-top: 1px solid var(--line); }
+.faq-item:first-child { border-top: 0; }
 
 footer { border-top: 1px solid var(--line); padding: 56px 0 40px; position: relative; }
 .foot-links { display: flex; gap: 22px; flex-wrap: wrap; }

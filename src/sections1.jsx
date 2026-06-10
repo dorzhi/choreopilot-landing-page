@@ -1,12 +1,13 @@
 // sections1.jsx — Reveal util, Nav, Hero, Partner-guide band, Problem, Solution, Features
-// Exports to window: Reveal, Nav, Hero, GuideBand, Problem, Solution, Features
 
-const { useState: useS1, useEffect: useE1, useRef: useR1 } = React;
+import { useState, useEffect, useRef } from "react";
+import { Icon } from "./visuals.jsx";
+import { HeroPhone } from "./phone.jsx";
 
-function Reveal({ children, delay = 0, as = "div", className = "", style }) {
-  const ref = useR1(null);
-  const [vis, setVis] = useS1(false);
-  useE1(() => {
+export function Reveal({ children, delay = 0, as = "div", className = "", style }) {
+  const ref = useRef(null);
+  const [vis, setVis] = useState(false);
+  useEffect(() => {
     const el = ref.current;
     if (!el) return;
     const io = new IntersectionObserver(([e]) => {
@@ -29,50 +30,90 @@ function Logo() {
   );
 }
 
-function Nav({ onWaitlist }) {
-  const [scr, setScr] = useS1(false);
-  useE1(() => {
+export function Nav() {
+  const [scr, setScr] = useState(false);
+  const [open, setOpen] = useState(false);
+  const navRef = useRef(null);
+
+  useEffect(() => {
     const fn = () => setScr(window.scrollY > 12);
     window.addEventListener("scroll", fn, { passive: true });
     return () => window.removeEventListener("scroll", fn);
   }, []);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e) => { if (e.key === "Escape") setOpen(false); };
+    const onClick = (e) => { if (navRef.current && !navRef.current.contains(e.target)) setOpen(false); };
+    document.addEventListener("keydown", onKey);
+    document.addEventListener("mousedown", onClick);
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.removeEventListener("mousedown", onClick);
+    };
+  }, [open]);
+
   const links = [
     ["Product", "#features"], ["How It Works", "#how"], ["Virtual Partner", "#partner"],
-    ["Scoring", "#scoring"], ["ChoreoPilot", "#mvp"],
+    ["Scoring", "#scoring"], ["Dance Styles", "#mvp"], ["FAQ", "#faq"],
   ];
+  const close = () => setOpen(false);
+
   return (
-    <nav className={`nav ${scr ? "scrolled" : ""}`}>
+    <nav ref={navRef} className={`nav ${scr ? "scrolled" : ""} ${open ? "nav-open" : ""}`}>
       <div className="wrap nav-inner">
         <Logo />
         <div className="nav-links">
           {links.map(([l, h]) => <a key={l} className="nav-link" href={h}>{l}</a>)}
         </div>
-        <div style={{ display: "flex", gap: 10 }}>
-          <a className="btn btn-ghost btn-sm" href="#how">See ChoreoPilot Flow</a>
+        <div className="nav-actions">
+          <a className="btn btn-ghost btn-sm nav-cta" href="#how">See ChoreoPilot Flow</a>
+          <button
+            type="button"
+            className="nav-toggle"
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+            aria-controls="mobile-menu"
+            onClick={() => setOpen((o) => !o)}
+          >
+            <span /><span /><span />
+          </button>
+        </div>
+      </div>
+      <div
+        id="mobile-menu"
+        className="mobile-menu"
+        role="dialog"
+        aria-modal="false"
+        aria-label="Main menu"
+        aria-hidden={!open}
+      >
+        <div className="wrap mobile-menu-inner">
+          {links.map(([l, h]) => (
+            <a key={l} className="mobile-menu-link" href={h} onClick={close}>{l}</a>
+          ))}
+          <a className="btn btn-primary mobile-menu-cta" href="#how" onClick={close}>
+            See ChoreoPilot Flow
+          </a>
         </div>
       </div>
     </nav>
   );
 }
 
-function Hero({ headline = 1, animate = true }) {
-  const h1 = "Practice bachata with an AI dance coach";
-  const h2a = "Record your dance. Get scored.";
-  const h2b = "Improve with a virtual partner.";
+export function Hero({ animate = true }) {
   return (
     <header id="top" className="section" style={{ paddingTop: "clamp(48px,6vw,84px)" }}>
       <div className="wrap" style={{ display: "grid", gridTemplateColumns: "1.05fr 0.95fr", gap: 48, alignItems: "center" }}>
         <div className="hero-copy">
-          <Reveal><p className="eyebrow">AI movement scoring · bachata practice</p></Reveal>
+          <Reveal><p className="eyebrow">AI practice partner · Latin social dance</p></Reveal>
           <Reveal delay={60} as="h1" className="h-display">
-            {headline === 1
-              ? <>Practice bachata with <span className="grad-text">an AI dance coach</span></>
-              : <>{h2a}<br /><span className="grad-text">{h2b}</span></>}
+            Your AI practice partner for <span className="grad-text">Latin dance</span>
           </Reveal>
           <Reveal delay={140}>
             <p className="lead" style={{ marginTop: 24 }}>
-              ChoreoPilot helps beginner bachata dancers record their practice, recognize body
-              movement, receive simple AI feedback, and train with a virtual leader or follower guide.
+              Record yourself, get instant movement feedback, and train with a virtual leader or follower —
+              starting with bachata.
             </p>
           </Reveal>
           <Reveal delay={220}>
@@ -83,7 +124,7 @@ function Hero({ headline = 1, animate = true }) {
           </Reveal>
           <Reveal delay={300}>
             <p className="muted" style={{ fontFamily: "var(--mono)", fontSize: 12.5, letterSpacing: "0.04em", marginTop: 22, display: "flex", alignItems: "center", gap: 9 }}>
-              <span className="dot" />Starting with Bachata Basic Step. More moves coming later.
+              <span className="dot" />Starting with bachata. Built for salsa, merengue, cha-cha, and more.
             </p>
           </Reveal>
         </div>
@@ -96,7 +137,7 @@ function Hero({ headline = 1, animate = true }) {
 }
 
 // Reframed "whispered guidance" -> Virtual Partner Guide band
-function GuideBand() {
+export function GuideBand() {
   return (
     <section className="section-tight">
       <div className="wrap">
@@ -117,19 +158,19 @@ function GuideBand() {
   );
 }
 
-function Problem() {
+export function Problem() {
   const items = [
-    ["eye", "You cannot see your own mistakes", "When practicing alone, it is hard to know if your timing, posture, and weight transfer are correct."],
-    ["partner", "You do not always have a partner", "Bachata is partner-based, but a practice partner is not always available."],
+    ["eye", "You cannot see your own mistakes", "When practicing Latin dance alone, it is hard to know if your timing, posture, and weight transfer are correct."],
+    ["partner", "You do not always have a partner", "Bachata, salsa, and other Latin social dances are partner-based, but a practice partner is not always available."],
     ["play", "Dance videos do not give feedback", "You can copy a video, but it will not tell you what you are doing wrong."],
-    ["score", "Progress is hard to measure", "Most beginner dancers do not know whether they are actually improving."],
+    ["score", "Progress is hard to measure", "Most beginner social dancers do not know whether they are actually improving."],
   ];
   return (
     <section className="section">
       <div className="wrap">
         <Reveal style={{ maxWidth: 720, marginBottom: 52 }}>
           <p className="eyebrow">The problem</p>
-          <h2 className="h-section">Practicing partner dance alone is hard</h2>
+          <h2 className="h-section">Practice Latin social dance with AI</h2>
         </Reveal>
         <div className="grid g-4">
           {items.map(([ic, t, d], i) => (
@@ -145,7 +186,7 @@ function Problem() {
   );
 }
 
-function Solution() {
+export function Solution() {
   const steps = [
     ["target", "Choose Move", "Start with Bachata Basic Step."],
     ["partner", "Practice with Guide", "Train solo, with a virtual leader, or with a virtual follower."],
@@ -158,7 +199,7 @@ function Solution() {
       <div className="wrap">
         <Reveal style={{ maxWidth: 760, marginBottom: 52 }}>
           <p className="eyebrow" style={{ color: "var(--accent-a)" }}>The solution</p>
-          <h2 className="h-section">ChoreoPilot turns practice into feedback</h2>
+          <h2 className="h-section">Record, recognize, score, and practice</h2>
         </Reveal>
         <div className="flow-row">
           {steps.map(([ic, t, d], i) => (
@@ -178,7 +219,7 @@ function Solution() {
   );
 }
 
-function Features() {
+export function Features() {
   const feats = [
     ["camera", "Record", "Mobile camera practice", "Record a short bachata practice attempt directly from your phone. No studio setup required."],
     ["pose", "Recognize", "Body movement recognition", "Pose detection tracks your movement and identifies the mechanics behind your basic step."],
@@ -208,5 +249,3 @@ function Features() {
     </section>
   );
 }
-
-Object.assign(window, { Reveal, Nav, Hero, GuideBand, Problem, Solution, Features });

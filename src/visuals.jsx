@@ -1,5 +1,4 @@
 // visuals.jsx — icon set + dance visuals (ghost silhouette, pose skeleton, count strip)
-// Exports to window: Icon, GhostFigure, Skeleton, CountStrip
 
 const _ic = {
   camera: <><rect x="2.5" y="6.5" width="19" height="13" rx="3"/><path d="M8 6.5l1.6-2.5h4.8L16 6.5"/><circle cx="12" cy="13" r="3.6"/></>,
@@ -23,7 +22,7 @@ const _ic = {
   scale: <><path d="M12 4v16M7 8h10M5 8l-2 5h4zM19 8l-2 5h4z"/><path d="M3 13a2 2 0 0 0 4 0M17 13a2 2 0 0 0 4 0"/></>,
 };
 
-function Icon({ name, size = 24, stroke = 1.7, style }) {
+export function Icon({ name, size = 24, stroke = 1.7, style }) {
   return (
     <svg viewBox="0 0 24 24" width={size} height={size} fill="none"
       stroke="currentColor" strokeWidth={stroke} strokeLinecap="round" strokeLinejoin="round" style={style}>
@@ -34,7 +33,7 @@ function Icon({ name, size = 24, stroke = 1.7, style }) {
 
 // Stylized human figure built from simple shapes — used as ghost partner & user silhouette.
 // pose: 'leader' | 'follower' (mirrored stance). variant: 'ghost' (glow fill) | 'line'
-function GhostFigure({ pose = "leader", variant = "ghost", hue = "a", sway = true, className = "", style }) {
+export function GhostFigure({ pose = "leader", variant = "ghost", hue = "a", sway = true, className = "", style }) {
   const flip = pose === "follower";
   const col = hue === "b" ? "var(--accent-b)" : "var(--accent-a)";
   const fill = variant === "ghost" ? col : "none";
@@ -44,17 +43,11 @@ function GhostFigure({ pose = "leader", variant = "ghost", hue = "a", sway = tru
       preserveAspectRatio="xMidYMax meet">
       <g transform={flip ? "scale(-1,1) translate(-120,0)" : ""} fill={fill} stroke={col} strokeWidth={variant === "ghost" ? 0 : 3}
         strokeLinecap="round" opacity={op} style={{ filter: variant === "ghost" ? `drop-shadow(0 0 14px ${col})` : "none" }}>
-        {/* head */}
         <circle cx="60" cy="26" r="15" />
-        {/* torso */}
         <path d="M46 46 Q60 40 74 46 L70 132 Q60 138 50 132 Z" />
-        {/* left arm (raised, frame/hold) */}
         <path d="M48 56 Q26 64 20 92 Q18 100 26 102 Q32 96 34 86 Q40 64 52 64 Z" />
-        {/* right arm (extended for partner connection) */}
         <path d="M72 56 Q98 58 110 78 Q113 84 106 88 Q98 80 92 72 Q82 64 70 66 Z" />
-        {/* left leg */}
         <path d="M50 128 Q44 180 40 232 Q39 242 48 242 Q54 200 58 150 Z" />
-        {/* right leg (stepping) */}
         <path d="M70 128 Q78 178 88 224 Q91 234 82 237 Q72 196 62 150 Z" />
       </g>
     </svg>
@@ -62,15 +55,15 @@ function GhostFigure({ pose = "leader", variant = "ghost", hue = "a", sway = tru
 }
 
 // Pose-detection skeleton: joints + bones over the user
-function Skeleton({ hue = "b", className = "", style }) {
+export function Skeleton({ hue = "b", className = "", style }) {
   const col = hue === "b" ? "var(--accent-b)" : "var(--accent-a)";
   const J = [
-    [60, 30], [60, 52],            // head, neck
-    [40, 66], [30, 100], [26, 134],// L shoulder, elbow, wrist
-    [80, 66], [92, 98], [98, 128], // R shoulder, elbow, wrist
-    [52, 132], [88, 132],          // hips
-    [48, 180], [44, 230],          // L knee, ankle
-    [90, 178], [96, 228],          // R knee, ankle
+    [60, 30], [60, 52],
+    [40, 66], [30, 100], [26, 134],
+    [80, 66], [92, 98], [98, 128],
+    [52, 132], [88, 132],
+    [48, 180], [44, 230],
+    [90, 178], [96, 228],
   ];
   const B = [[0,1],[1,2],[2,3],[3,4],[1,5],[5,6],[6,7],[1,8],[1,9],[8,10],[10,11],[9,12],[12,13]];
   return (
@@ -88,7 +81,7 @@ function Skeleton({ hue = "b", className = "", style }) {
 }
 
 // 8-count rhythm strip. active = index 0..7, tapCounts = which beats are "tap"
-function CountStrip({ active = -1, taps = [3, 7], size = "md" }) {
+export function CountStrip({ active = -1, taps = [3, 7], size = "md" }) {
   const counts = [1, 2, 3, 4, 5, 6, 7, 8];
   return (
     <div className={`count-strip cs-${size}`}>
@@ -103,5 +96,3 @@ function CountStrip({ active = -1, taps = [3, 7], size = "md" }) {
     </div>
   );
 }
-
-Object.assign(window, { Icon, GhostFigure, Skeleton, CountStrip });

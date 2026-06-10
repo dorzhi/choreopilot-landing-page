@@ -1,10 +1,12 @@
-// sections2.jsx — Virtual Partner, Scoring, MVP scope, How it works, Who, Comparison, Waitlist, Footer
-// Exports to window: VirtualPartner, Scoring, MVPScope, HowItWorks, WhoFor, Comparison, Waitlist, Foot
+// sections2.jsx — Virtual Partner, Scoring, MVP scope, How it works, Who, Comparison, FAQ, Waitlist, Footer
 
-const { useState: useS2, useEffect: useE2, useRef: useR2 } = React;
+import { useState, useEffect, useRef } from "react";
+import { Icon } from "./visuals.jsx";
+import { PartnerPhone } from "./phone.jsx";
+import { Reveal } from "./sections1.jsx";
 
-function VirtualPartner({ animate = true }) {
-  const [mode, setMode] = useS2("leader");
+export function VirtualPartner({ animate = true }) {
+  const [mode, setMode] = useState("leader");
   const modes = [
     ["solo", "Solo Practice", "Record yourself with count guidance and body framing.", "music"],
     ["leader", "Virtual Leader Guide", "For followers practicing timing, movement response, and confidence.", "partner"],
@@ -15,7 +17,7 @@ function VirtualPartner({ animate = true }) {
       <div className="wrap">
         <Reveal style={{ maxWidth: 780, marginBottom: 14 }}>
           <p className="eyebrow" style={{ color: "var(--accent-a)" }}>Virtual partner</p>
-          <h2 className="h-section">A partner guide when you do not have a partner</h2>
+          <h2 className="h-section">Practice with a virtual leader or follower</h2>
         </Reveal>
         <Reveal delay={80}>
           <p className="lead" style={{ marginBottom: 48 }}>
@@ -51,10 +53,10 @@ function VirtualPartner({ animate = true }) {
   );
 }
 
-function Scoring() {
-  const ref = useR2(null);
-  const [vis, setVis] = useS2(false);
-  useE2(() => {
+export function Scoring() {
+  const ref = useRef(null);
+  const [vis, setVis] = useState(false);
+  useEffect(() => {
     const el = ref.current; if (!el) return;
     const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setVis(true); io.disconnect(); } }, { threshold: 0.25 });
     io.observe(el); return () => io.disconnect();
@@ -79,7 +81,6 @@ function Scoring() {
         </Reveal>
 
         <div ref={ref} style={{ display: "grid", gridTemplateColumns: "0.85fr 1.15fr", gap: 28, alignItems: "start" }} className="score-grid">
-          {/* overall */}
           <Reveal className="card card-pad" style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", gap: 18 }}>
             <div style={{ position: "relative", display: "grid", placeItems: "center" }}>
               <svg viewBox="0 0 100 100" width="180" height="180">
@@ -102,7 +103,6 @@ function Scoring() {
             <div className="pill" style={{ color: "var(--accent-a)" }}><Icon name="target" size={14} />Next focus · Weight Transfer</div>
           </Reveal>
 
-          {/* categories + feedback */}
           <Reveal delay={120} className="card card-pad">
             <div className="road-tag" style={{ color: "var(--ink-2)", marginBottom: 18 }}>Category scores</div>
             <div className="grid g-2" style={{ gap: "16px 28px", marginBottom: 28 }}>
@@ -132,25 +132,25 @@ function Scoring() {
   );
 }
 
-function MVPScope() {
+export function MVPScope() {
   const cols = [
     ["Now", "accent-b", ["Bachata Basic Step", "Mobile recording", "Body movement recognition", "Movement scoring", "Virtual partner guide", "Practice history"]],
-    ["Next", "ink-1", ["Side Basic", "Forward / back basic", "Hip movement", "Right turn prep", "Improved scoring", "Better progress tracking"]],
-    ["Later", "ink-2", ["Real pair practice", "Social partner discovery", "Dance events", "Studio tools", "Choreography support", "Advanced partner training"]],
+    ["Next", "ink-1", ["More bachata moves", "Salsa basic step", "Merengue & cha-cha", "Improved scoring", "Better progress tracking", "Personalized drills"]],
+    ["Later", "ink-2", ["Reggaeton & other Latin styles", "Real pair practice", "Social partner discovery", "Dance events", "Studio tools", "Choreography support"]],
   ];
   return (
     <section id="mvp" className="section" style={{ background: "var(--bg-1)", borderTop: "1px solid var(--line)", borderBottom: "1px solid var(--line)" }}>
       <div className="wrap">
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 40, alignItems: "end", marginBottom: 52 }} className="mvp-head">
           <Reveal>
-            <p className="eyebrow">Roadmap</p>
-            <h2 className="h-section">Built narrow on purpose</h2>
+            <p className="eyebrow">Dance styles</p>
+            <h2 className="h-section">Starting with bachata. Built for more.</h2>
           </Reveal>
           <Reveal delay={80}>
             <p className="lead" style={{ margin: 0 }}>
-              ChoreoPilot starts with one move — Bachata Basic Step — because useful feedback matters
-              more than a huge feature list. Once scoring feels accurate and helpful, the product can
-              expand into more moves, pair practice, social events, choreography, and studio tools.
+              ChoreoPilot begins with bachata as the first practice module — because useful feedback
+              matters more than a huge feature list — then expands toward salsa, merengue, cha-cha,
+              reggaeton, and other Latin social dance styles.
             </p>
           </Reveal>
         </div>
@@ -175,7 +175,7 @@ function MVPScope() {
   );
 }
 
-function HowItWorks() {
+export function HowItWorks() {
   const steps = [
     ["Set up your camera", "Place your phone 2–3 meters away so your full body is visible.", "phone"],
     ["Follow the count", "Move with the 1–8 bachata rhythm.", "rhythm"],
@@ -188,7 +188,7 @@ function HowItWorks() {
       <div className="wrap">
         <Reveal style={{ maxWidth: 760, marginBottom: 52 }}>
           <p className="eyebrow" style={{ color: "var(--accent-a)" }}>How it works</p>
-          <h2 className="h-section">From recording to feedback in one minute</h2>
+          <h2 className="h-section">How ChoreoPilot works</h2>
         </Reveal>
         <div className="how-list">
           {steps.map(([t, d, ic], i) => (
@@ -207,19 +207,20 @@ function HowItWorks() {
   );
 }
 
-function WhoFor() {
+export function WhoFor() {
   const who = [
-    ["user", "Beginners", "Understand whether your basic movement is actually correct."],
-    ["partner", "Followers", "Practice with a virtual leader guide when no partner is available."],
-    ["rhythm", "Leaders", "Practice rhythm and spacing with a virtual follower guide."],
-    ["teacher", "Dance teachers", "Use AI scoring later to support student practice outside class."],
+    ["user", "Beginners learning timing", "Understand whether your basic movement, rhythm, and timing are actually correct."],
+    ["rhythm", "Leaders building confidence", "Practice rhythm and spacing with a virtual follower guide before social dancing."],
+    ["partner", "Followers improving response", "Train body movement and timing response with a virtual leader guide."],
+    ["music", "Dancers practicing before socials", "Get a quick warm-up with movement scoring and a clear next focus."],
+    ["teacher", "Teachers between classes", "Give students a way to practice and get feedback outside of class."],
   ];
   return (
     <section className="section" style={{ background: "var(--bg-1)", borderTop: "1px solid var(--line)", borderBottom: "1px solid var(--line)" }}>
       <div className="wrap">
         <Reveal style={{ maxWidth: 720, marginBottom: 52 }}>
           <p className="eyebrow">Who it's for</p>
-          <h2 className="h-section">Made for beginner bachata practice</h2>
+          <h2 className="h-section">Who ChoreoPilot is for</h2>
         </Reveal>
         <div className="grid g-4">
           {who.map(([ic, t, d], i) => (
@@ -235,7 +236,35 @@ function WhoFor() {
   );
 }
 
-function Comparison() {
+export function FAQ() {
+  const items = [
+    ["Is ChoreoPilot only for bachata?", "ChoreoPilot starts with bachata as the first practice module, but the long-term vision is to support Latin social dance styles such as salsa, merengue, cha-cha, reggaeton, and more."],
+    ["Do I need a dance partner?", "No. ChoreoPilot is designed for solo practice. You can train with a virtual leader or follower guide and use your phone camera to receive movement feedback."],
+    ["What does the AI score measure?", "The score can include timing, posture, rhythm, balance, smoothness, body movement, and practice consistency."],
+    ["Can beginners use it?", "Yes. ChoreoPilot is designed for beginners and improvers who want simple, clear feedback while practicing at home."],
+    ["Does it work on mobile?", "The product is designed around mobile recording, so dancers can practice with their phone camera."],
+  ];
+  return (
+    <section id="faq" className="section">
+      <div className="wrap">
+        <Reveal style={{ maxWidth: 720, marginBottom: 40 }}>
+          <p className="eyebrow">FAQ</p>
+          <h2 className="h-section">Frequently asked questions</h2>
+        </Reveal>
+        <div className="faq-list">
+          {items.map(([q, a], i) => (
+            <Reveal key={q} delay={i * 60} as="article" className="faq-item">
+              <h3 className="h-card" style={{ fontSize: 21, marginBottom: 10 }}>{q}</h3>
+              <p className="muted" style={{ margin: 0, fontSize: 16 }}>{a}</p>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export function Comparison() {
   const bad = ["You watch passively", "No movement recognition", "No scoring", "No personal feedback", "No virtual partner"];
   const good = ["You record yourself", "AI recognizes movement", "You get scored", "You receive clear feedback", "You practice with a virtual leader / follower guide"];
   return (
@@ -273,78 +302,29 @@ function Comparison() {
   );
 }
 
-function Waitlist() {
-  const [form, setForm] = useS2({ name: "", email: "", level: "", role: "", city: "" });
-  const [done, setDone] = useS2(false);
-  const levels = ["Beginner", "Beginner+", "Intermediate"];
-  const roles = ["Leader", "Follower", "Both", "Solo"];
-  const set = (k, v) => setForm((f) => ({ ...f, [k]: v }));
-  const submit = (e) => { e.preventDefault(); if (form.email) setDone(true); };
-  return (
-    <section id="waitlist" className="section">
-      <div className="wrap">
-        <Reveal className="card card-pad waitlist-card">
-          <div className="wl-grid">
-            <div>
-              <p className="eyebrow" style={{ color: "var(--accent-a)" }}>Waitlist</p>
-              <h2 className="h-section" style={{ marginBottom: 18 }}>Help shape the first AI bachata practice coach</h2>
-              <p className="lead">
-                We are building ChoreoPilot now. Join the waitlist to test it and help improve
-                the movement recognition experience.
-              </p>
-              <p className="muted" style={{ fontFamily: "var(--mono)", fontSize: 12.5, marginTop: 22, display: "flex", alignItems: "center", gap: 9 }}>
-                <span className="dot" />Early testers get free access to the first ChoreoPilot release.
-              </p>
-            </div>
-
-            {done ? (
-              <div className="wl-done">
-                <div className="icon-tile" style={{ width: 64, height: 64, marginBottom: 22 }}><Icon name="check" size={30} /></div>
-                <h3 className="h-card" style={{ fontSize: 26, marginBottom: 10 }}>You're on the list</h3>
-                <p className="muted" style={{ margin: 0 }}>Thanks{form.name ? `, ${form.name.split(" ")[0]}` : ""}. We'll reach out when ChoreoPilot is ready to test.</p>
-              </div>
-            ) : (
-              <form onSubmit={submit} style={{ display: "flex", flexDirection: "column", gap: 18 }}>
-                <div className="grid g-2" style={{ gap: 16 }}>
-                  <div className="field"><label>Name</label><input className="input" value={form.name} onChange={(e) => set("name", e.target.value)} placeholder="Your name" /></div>
-                  <div className="field"><label>Email</label><input className="input" type="email" required value={form.email} onChange={(e) => set("email", e.target.value)} placeholder="you@email.com" /></div>
-                </div>
-                <div className="field">
-                  <label>Dance level</label>
-                  <div className="seg">{levels.map((l) => <button type="button" key={l} className={form.level === l ? "on" : ""} onClick={() => set("level", l)}>{l}</button>)}</div>
-                </div>
-                <div className="field">
-                  <label>Role</label>
-                  <div className="seg">{roles.map((r) => <button type="button" key={r} className={form.role === r ? "on" : ""} onClick={() => set("role", r)}>{r}</button>)}</div>
-                </div>
-                <div className="field"><label>City</label><input className="input" value={form.city} onChange={(e) => set("city", e.target.value)} placeholder="Where you dance" /></div>
-                <button className="btn btn-primary" type="submit" style={{ justifyContent: "center", padding: "15px" }}><Icon name="spark" size={17} />Join the Waitlist</button>
-              </form>
-            )}
-          </div>
-        </Reveal>
-      </div>
-    </section>
-  );
-}
-
-function Foot() {
-  const links = ["Product", "Virtual Partner", "Scoring", "ChoreoPilot", "Contact", "Privacy"];
+export function Foot() {
+  const links = [
+    ["Product", "#features"],
+    ["Virtual dance partner", "#partner"],
+    ["AI dance feedback", "#scoring"],
+    ["Bachata practice", "#mvp"],
+    ["FAQ", "#faq"],
+  ];
   return (
     <footer>
       <div className="wrap" style={{ display: "flex", justifyContent: "space-between", gap: 32, flexWrap: "wrap", alignItems: "flex-start" }}>
-        <div style={{ maxWidth: 320 }}>
+        <div style={{ maxWidth: 360 }}>
           <a className="logo" href="#top" style={{ marginBottom: 12 }}><span className="logo-mark" /><span className="logo-word">ChoreoPilot</span></a>
-          <p className="muted" style={{ fontFamily: "var(--serif)", fontStyle: "italic", fontSize: 18, margin: "10px 0 0" }}>AI dance practice for bachata beginners</p>
+          <p className="muted" style={{ fontFamily: "var(--serif)", fontStyle: "italic", fontSize: 18, margin: "10px 0 0" }}>AI practice partner for Latin social dance</p>
         </div>
-        <div className="foot-links">{links.map((l) => <a key={l} href="#top">{l}</a>)}</div>
+        <nav className="foot-links" aria-label="Footer">
+          {links.map(([l, h]) => <a key={l} href={h}>{l}</a>)}
+        </nav>
       </div>
       <div className="wrap" style={{ marginTop: 40, paddingTop: 22, borderTop: "1px solid var(--line)", display: "flex", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
-        <span className="muted" style={{ fontSize: 13 }}>© 2026 ChoreoPilot · Starting with Bachata Basic Step</span>
+        <span className="muted" style={{ fontSize: 13 }}>© 2026 ChoreoPilot · Starting with bachata. Built for Latin social dance.</span>
         <span className="muted" style={{ fontFamily: "var(--mono)", fontSize: 12, letterSpacing: "0.1em" }}>RECORD · RECOGNIZE · SCORE · GUIDE</span>
       </div>
     </footer>
   );
 }
-
-Object.assign(window, { VirtualPartner, Scoring, MVPScope, HowItWorks, WhoFor, Comparison, Foot });
