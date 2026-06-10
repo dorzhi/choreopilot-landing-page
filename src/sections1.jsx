@@ -67,7 +67,7 @@ export function Nav() {
           {links.map(([l, h]) => <a key={l} className="nav-link" href={h}>{l}</a>)}
         </div>
         <div className="nav-actions">
-          <a className="btn btn-ghost btn-sm nav-cta" href="#how">See ChoreoPilot Flow</a>
+          <a className="btn btn-ghost btn-sm nav-cta" href="https://app.choreopilot.com" target="_blank" rel="noopener">See ChoreoPilot Demo</a>
           <button
             type="button"
             className="nav-toggle"
@@ -92,8 +92,8 @@ export function Nav() {
           {links.map(([l, h]) => (
             <a key={l} className="mobile-menu-link" href={h} onClick={close}>{l}</a>
           ))}
-          <a className="btn btn-primary mobile-menu-cta" href="#how" onClick={close}>
-            See ChoreoPilot Flow
+          <a className="btn btn-primary mobile-menu-cta" href="https://app.choreopilot.com" target="_blank" rel="noopener" onClick={close}>
+            See ChoreoPilot Demo
           </a>
         </div>
       </div>
